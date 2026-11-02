@@ -158,12 +158,11 @@ def _overview_tab() -> rx.Component:
                 rx.icon("search", size=18, class_name="text-slate-400 shrink-0"),
                 rx.debounce_input(
                     rx.el.input(
-                        value=AppState.uni_search_query,
                         on_change=AppState.set_uni_search_query,
                         placeholder="Search global universities by name, country, or major (e.g., MIT, ALU Mauritius, Oxford, Toronto)...",
                         class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
                     ),
-                    debounce_timeout=150,
+                    debounce_timeout=250,
                 ),
                 class_name="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white border border-slate-300 shadow-2xs",
             ),
@@ -347,12 +346,11 @@ def _scholarships_tab() -> rx.Component:
             rx.icon("search", size=17, class_name="text-slate-400 shrink-0"),
             rx.debounce_input(
                 rx.el.input(
-                    value=AppState.scholarship_search_query,
                     on_change=AppState.set_scholarship_search_query,
                     placeholder="Filter scholarships by name, foundation, or region (e.g., Mastercard, Gates, Rhodes, Canada)...",
                     class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
                 ),
-                debounce_timeout=150,
+                debounce_timeout=250,
             ),
             class_name="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-slate-300 mb-6",
         ),
@@ -441,12 +439,11 @@ def _mentors_tab() -> rx.Component:
                 rx.icon("search", size=17, class_name="text-slate-400 shrink-0"),
                 rx.debounce_input(
                     rx.el.input(
-                        value=AppState.mentor_search_query,
                         on_change=AppState.set_mentor_search_query,
                         placeholder="Search mentors by university, specialty, or name (e.g., Stanford, Oxford, ALU, Rhodes)...",
                         class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
                     ),
-                    debounce_timeout=150,
+                    debounce_timeout=250,
                 ),
                 class_name="flex-1 flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-slate-300",
             ),
@@ -521,33 +518,31 @@ def _prep_suite_tab() -> rx.Component:
         rx.cond(
             AppState.prep_active_tool == "essay",
             rx.el.div(
-                rx.el.div(
+                rx.form(
                     rx.el.label(
                         "Target University or Scholarship",
+                        html_for="prep_essay_target",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.debounce_input(
-                        rx.el.input(
-                            value=AppState.prep_essay_target,
-                            on_change=AppState.set_prep_essay_target,
-                            placeholder="e.g., Massachusetts Institute of Technology (MIT)",
-                            class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                        ),
-                        debounce_timeout=150,
+                    rx.el.input(
+                        id="prep_essay_target",
+                        name="essay_target",
+                        default_value=AppState.prep_essay_target,
+                        placeholder="e.g., Massachusetts Institute of Technology (MIT)",
+                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                     ),
                     rx.el.label(
                         "Personal Statement / Motivation Essay Draft",
+                        html_for="prep_essay_draft",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.debounce_input(
-                        rx.el.textarea(
-                            value=AppState.prep_essay_draft,
-                            on_change=AppState.set_prep_essay_draft,
-                            rows=7,
-                            placeholder="Paste your essay draft here...",
-                            class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                        ),
-                        debounce_timeout=150,
+                    rx.el.textarea(
+                        id="prep_essay_draft",
+                        name="essay_draft",
+                        default_value=AppState.prep_essay_draft,
+                        rows=7,
+                        placeholder="Paste your essay draft here...",
+                        class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                     ),
                     rx.el.button(
                         rx.icon("sparkles", size=16),
@@ -558,9 +553,10 @@ def _prep_suite_tab() -> rx.Component:
                                 "Run AI Admissions Reader Critique",
                             )
                         ),
-                        on_click=AppState.run_prep_essay_critique,
+                        type="submit",
                         class_name="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer",
                     ),
+                    on_submit=AppState.handle_prep_essay_form_submit,
                     class_name="p-6 rounded-3xl bg-white border border-slate-200 mb-6",
                 ),
                 rx.cond(
@@ -612,7 +608,7 @@ def _prep_suite_tab() -> rx.Component:
         rx.cond(
             AppState.prep_active_tool == "interview",
             rx.el.div(
-                rx.el.div(
+                rx.form(
                     rx.el.p(
                         "Select an Admissions / Scholarship Interview Question:",
                         class_name="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2",
@@ -622,6 +618,7 @@ def _prep_suite_tab() -> rx.Component:
                             AppState.interview_question_options,
                             lambda q: rx.el.button(
                                 q,
+                                type="button",
                                 on_click=AppState.set_prep_interview_question(q),
                                 class_name=rx.cond(
                                     AppState.prep_interview_question == q,
@@ -634,17 +631,16 @@ def _prep_suite_tab() -> rx.Component:
                     ),
                     rx.el.label(
                         "Your Spoken / Written Interview Response",
+                        html_for="prep_interview_answer",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.debounce_input(
-                        rx.el.textarea(
-                            value=AppState.prep_interview_answer,
-                            on_change=AppState.set_prep_interview_answer,
-                            rows=5,
-                            placeholder="Type or dictate your mock interview response...",
-                            class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                        ),
-                        debounce_timeout=150,
+                    rx.el.textarea(
+                        id="prep_interview_answer",
+                        name="interview_answer",
+                        default_value=AppState.prep_interview_answer,
+                        rows=5,
+                        placeholder="Type or dictate your mock interview response...",
+                        class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                     ),
                     rx.el.button(
                         rx.icon("sparkles", size=16),
@@ -655,9 +651,10 @@ def _prep_suite_tab() -> rx.Component:
                                 "Evaluate Interview Response",
                             )
                         ),
-                        on_click=AppState.run_prep_interview_evaluation,
+                        type="submit",
                         class_name="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold cursor-pointer",
                     ),
+                    on_submit=AppState.handle_prep_interview_form_submit,
                     class_name="p-6 rounded-3xl bg-white border border-slate-200 mb-6",
                 ),
                 rx.cond(

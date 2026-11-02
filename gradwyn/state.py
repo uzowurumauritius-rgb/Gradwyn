@@ -666,6 +666,18 @@ class AppState(rx.State):
         self.partner_university_name = "All Partner Institutions"
         return rx.redirect("/university-dashboard")
 
+    def handle_auth_form_submit(self, form_data: dict[str, Any]):
+        """Handle submit from uncontrolled auth form."""
+        if form_data.get("email"):
+            self.auth_email_input = str(form_data["email"]).strip().lower()
+        if form_data.get("password"):
+            self.auth_password_input = str(form_data["password"]).strip()
+        if form_data.get("name"):
+            self.auth_name_input = str(form_data["name"]).strip()
+        if form_data.get("university"):
+            self.auth_university_input = str(form_data["university"]).strip()
+        return self.handle_auth_submit()
+
     def handle_auth_key_down(self, key: str, info: dict | None = None):
         """Handle Enter key in authentication form."""
         if key == "Enter":
@@ -829,6 +841,64 @@ class AppState(rx.State):
     def set_profile_career_goals(self, val: str) -> None:
         self.profile_career_goals = val
 
+    def handle_onboarding_form_submit(self, form_data: dict[str, Any]):
+        """Save submitted form fields from current onboarding step and advance."""
+        if "profile_name" in form_data and str(form_data["profile_name"]).strip():
+            self.profile_name = str(form_data["profile_name"]).strip()
+        if "profile_country" in form_data and str(form_data["profile_country"]).strip():
+            self.profile_country = str(form_data["profile_country"]).strip()
+        if "profile_gpa" in form_data and str(form_data["profile_gpa"]).strip():
+            self.profile_gpa = str(form_data["profile_gpa"]).strip()
+        if "profile_test_scores" in form_data and str(form_data["profile_test_scores"]).strip():
+            self.profile_test_scores = str(form_data["profile_test_scores"]).strip()
+        if "profile_extracurriculars" in form_data and str(form_data["profile_extracurriculars"]).strip():
+            self.profile_extracurriculars = str(form_data["profile_extracurriculars"]).strip()
+        if "profile_career_goals" in form_data and str(form_data["profile_career_goals"]).strip():
+            self.profile_career_goals = str(form_data["profile_career_goals"]).strip()
+        if "custom_interest_input" in form_data:
+            c_val = str(form_data["custom_interest_input"]).strip()
+            if c_val and c_val not in self.profile_academic_interests:
+                self.profile_academic_interests = self.profile_academic_interests + [c_val]
+        return self.next_onboarding_step()
+
+    def handle_custom_interest_form_submit(self, form_data: dict[str, Any]):
+        """Add custom interest from native form submission."""
+        val = str(form_data.get("custom_interest", form_data.get("custom_interest_input", ""))).strip()
+        if val and val not in self.profile_academic_interests:
+            self.profile_academic_interests = self.profile_academic_interests + [val]
+
+    def handle_prep_essay_form_submit(self, form_data: dict[str, Any]):
+        """Analyze essay from uncontrolled form."""
+        if "essay_target" in form_data and str(form_data["essay_target"]).strip():
+            self.prep_essay_target = str(form_data["essay_target"]).strip()
+        if "essay_draft" in form_data and str(form_data["essay_draft"]).strip():
+            self.prep_essay_draft = str(form_data["essay_draft"]).strip()
+        return self.run_prep_essay_critique()
+
+    def handle_prep_interview_form_submit(self, form_data: dict[str, Any]):
+        """Evaluate mock interview from uncontrolled form."""
+        if "interview_answer" in form_data and str(form_data["interview_answer"]).strip():
+            self.prep_interview_answer = str(form_data["interview_answer"]).strip()
+        return self.run_prep_interview_evaluation()
+
+    def handle_profile_edit_form_submit(self, form_data: dict[str, Any]):
+        """Save edited profile from modal form."""
+        if "profile_name" in form_data and str(form_data["profile_name"]).strip():
+            self.profile_name = str(form_data["profile_name"]).strip()
+        if "profile_country" in form_data and str(form_data["profile_country"]).strip():
+            self.profile_country = str(form_data["profile_country"]).strip()
+        if "profile_gpa" in form_data and str(form_data["profile_gpa"]).strip():
+            self.profile_gpa = str(form_data["profile_gpa"]).strip()
+        if "profile_test_scores" in form_data and str(form_data["profile_test_scores"]).strip():
+            self.profile_test_scores = str(form_data["profile_test_scores"]).strip()
+        if "profile_budget" in form_data and str(form_data["profile_budget"]).strip():
+            self.profile_budget = str(form_data["profile_budget"]).strip()
+        if "profile_extracurriculars" in form_data and str(form_data["profile_extracurriculars"]).strip():
+            self.profile_extracurriculars = str(form_data["profile_extracurriculars"]).strip()
+        if "profile_career_goals" in form_data and str(form_data["profile_career_goals"]).strip():
+            self.profile_career_goals = str(form_data["profile_career_goals"]).strip()
+        return self.save_edited_profile_and_reanalyze()
+
     def handle_onboarding_key_down(self, key: str, info: dict | None = None):
         """Advance onboarding step on Enter."""
         if key == "Enter":
@@ -883,6 +953,14 @@ class AppState(rx.State):
 
     def send_quick_prompt(self, prompt_text: str):
         self.chat_input = prompt_text
+        return self.send_chat_message()
+
+    def handle_chat_form_submit(self, form_data: dict[str, Any]):
+        """Send chat message from native form submit."""
+        msg = str(form_data.get("message", "")).strip()
+        if not msg or self.is_ai_loading:
+            return
+        self.chat_input = msg
         return self.send_chat_message()
 
     def handle_chat_key_down(self, key: str, info: dict | None = None):

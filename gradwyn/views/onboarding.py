@@ -13,17 +13,18 @@ def _step_0_name() -> rx.Component:
     return rx.el.div(
         rx.el.label(
             "Your Full Name",
+            html_for="profile_name",
             class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2",
         ),
-        rx.debounce_input(
-            rx.el.input(
-                value=AppState.profile_name,
-                on_change=AppState.set_profile_name,
-                on_key_down=AppState.handle_onboarding_key_down,
-                placeholder="e.g., Amara Okafor",
-                class_name="w-full px-4 py-3.5 rounded-2xl border border-slate-300 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-            ),
-            debounce_timeout=150,
+        rx.el.input(
+            id="profile_name",
+            name="profile_name",
+            key="step-0-input-name",
+            default_value=AppState.profile_name,
+            on_blur=AppState.set_profile_name,
+            auto_focus=True,
+            placeholder="e.g., Amara Okafor",
+            class_name="w-full px-4 py-3.5 rounded-2xl border border-slate-300 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
         ),
         rx.el.p(
             "Press Enter ↵ to continue",
@@ -36,17 +37,18 @@ def _step_1_country() -> rx.Component:
     return rx.el.div(
         rx.el.label(
             "Country of Citizenship / Residence",
+            html_for="profile_country",
             class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2",
         ),
-        rx.debounce_input(
-            rx.el.input(
-                value=AppState.profile_country,
-                on_change=AppState.set_profile_country,
-                on_key_down=AppState.handle_onboarding_key_down,
-                placeholder="e.g., Nigeria, Mauritius, Kenya, India...",
-                class_name="w-full px-4 py-3.5 rounded-2xl border border-slate-300 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-            ),
-            debounce_timeout=150,
+        rx.el.input(
+            id="profile_country",
+            name="profile_country",
+            key="step-1-input-country",
+            default_value=AppState.profile_country,
+            on_blur=AppState.set_profile_country,
+            auto_focus=True,
+            placeholder="e.g., Nigeria, Mauritius, Kenya, India...",
+            class_name="w-full px-4 py-3.5 rounded-2xl border border-slate-300 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
         ),
         rx.el.p(
             "Press Enter ↵ to continue",
@@ -66,6 +68,7 @@ def _step_2_education_level() -> rx.Component:
                     rx.icon("circle-check", size=18),
                     rx.icon("circle", size=18, class_name="text-slate-300"),
                 ),
+                type="button",
                 on_click=AppState.set_profile_education_level(opt),
                 class_name=rx.cond(
                     AppState.profile_education_level == opt,
@@ -89,6 +92,7 @@ def _step_3_target_degree() -> rx.Component:
                     rx.icon("circle-check", size=18),
                     rx.icon("circle", size=18, class_name="text-slate-300"),
                 ),
+                type="button",
                 on_click=AppState.set_profile_target_degree(opt),
                 class_name=rx.cond(
                     AppState.profile_target_degree == opt,
@@ -108,6 +112,7 @@ def _step_4_academic_interests() -> rx.Component:
                 AppState.current_onboarding_options,
                 lambda opt: rx.el.button(
                     opt,
+                    type="button",
                     on_click=AppState.toggle_academic_interest(opt),
                     class_name=rx.cond(
                         AppState.profile_academic_interests.contains(opt),
@@ -119,18 +124,17 @@ def _step_4_academic_interests() -> rx.Component:
             class_name="flex flex-wrap gap-2.5 mb-5",
         ),
         rx.el.div(
-            rx.debounce_input(
-                rx.el.input(
-                    value=AppState.custom_interest_input,
-                    on_change=AppState.set_custom_interest_input,
-                    on_key_down=AppState.handle_custom_interest_key_down,
-                    placeholder="Add another major or interest (e.g., Robotics, Climate Tech)...",
-                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                ),
-                debounce_timeout=150,
+            rx.el.input(
+                id="custom_interest_input",
+                name="custom_interest_input",
+                key="step-4-custom-interest",
+                on_blur=AppState.set_custom_interest_input,
+                placeholder="Add another major or interest (e.g., Robotics, Climate Tech)...",
+                class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
             ),
             rx.el.button(
                 "Add +",
+                type="button",
                 on_click=AppState.add_custom_interest,
                 class_name="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 cursor-pointer shrink-0",
             ),
@@ -144,33 +148,34 @@ def _step_5_academics() -> rx.Component:
         rx.el.div(
             rx.el.label(
                 "Current GPA / Academic Standing",
+                html_for="profile_gpa",
                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
             ),
-            rx.debounce_input(
-                rx.el.input(
-                    value=AppState.profile_gpa,
-                    on_change=AppState.set_profile_gpa,
-                    on_key_down=AppState.handle_onboarding_key_down,
-                    placeholder="e.g., 3.9/4.0, A*AA, IB 40/45, or First Class",
-                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                ),
-                debounce_timeout=150,
+            rx.el.input(
+                id="profile_gpa",
+                name="profile_gpa",
+                key="step-5-input-gpa",
+                default_value=AppState.profile_gpa,
+                on_blur=AppState.set_profile_gpa,
+                auto_focus=True,
+                placeholder="e.g., 3.9/4.0, A*AA, IB 40/45, or First Class",
+                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
             ),
         ),
         rx.el.div(
             rx.el.label(
                 "Standardized Test Scores (Optional)",
+                html_for="profile_test_scores",
                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
             ),
-            rx.debounce_input(
-                rx.el.input(
-                    value=AppState.profile_test_scores,
-                    on_change=AppState.set_profile_test_scores,
-                    on_key_down=AppState.handle_onboarding_key_down,
-                    placeholder="e.g., SAT 1510, GRE 328, IELTS 8.0, or Test-Optional",
-                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                ),
-                debounce_timeout=150,
+            rx.el.input(
+                id="profile_test_scores",
+                name="profile_test_scores",
+                key="step-5-input-test-scores",
+                default_value=AppState.profile_test_scores,
+                on_blur=AppState.set_profile_test_scores,
+                placeholder="e.g., SAT 1510, GRE 328, IELTS 8.0, or Test-Optional",
+                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
             ),
         ),
         rx.el.p(
@@ -192,6 +197,7 @@ def _step_6_locations() -> rx.Component:
                     rx.icon("check", size=18),
                     rx.icon("plus", size=18, class_name="text-slate-400"),
                 ),
+                type="button",
                 on_click=AppState.toggle_preferred_location(loc),
                 class_name=rx.cond(
                     AppState.profile_preferred_locations.contains(loc),
@@ -215,6 +221,7 @@ def _step_7_budget() -> rx.Component:
                     rx.icon("circle-check", size=18),
                     rx.icon("circle", size=18, class_name="text-slate-300"),
                 ),
+                type="button",
                 on_click=AppState.set_profile_budget(opt),
                 class_name=rx.cond(
                     AppState.profile_budget == opt,
@@ -232,33 +239,36 @@ def _step_8_holistic() -> rx.Component:
         rx.el.div(
             rx.el.label(
                 "Extracurriculars, Leadership & Awards",
+                html_for="profile_extracurriculars",
                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
             ),
-            rx.debounce_input(
-                rx.el.textarea(
-                    value=AppState.profile_extracurriculars,
-                    on_change=AppState.set_profile_extracurriculars,
-                    rows=3,
-                    placeholder="e.g., Founded school coding club, National Debate winner, community volunteering...",
-                    class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                ),
-                debounce_timeout=150,
+            rx.el.textarea(
+                id="profile_extracurriculars",
+                name="profile_extracurriculars",
+                key="step-8-input-ec",
+                default_value=AppState.profile_extracurriculars,
+                on_blur=AppState.set_profile_extracurriculars,
+                auto_focus=True,
+                rows=3,
+                placeholder="e.g., Founded school coding club, National Debate winner, community volunteering...",
+                class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
             ),
         ),
         rx.el.div(
             rx.el.label(
                 "Long-Term Career Aspirations",
+                html_for="profile_career_goals",
                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
             ),
-            rx.debounce_input(
-                rx.el.textarea(
-                    value=AppState.profile_career_goals,
-                    on_change=AppState.set_profile_career_goals,
-                    rows=3,
-                    placeholder="e.g., Lead AI research and build financial/educational infrastructure in emerging markets...",
-                    class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                ),
-                debounce_timeout=150,
+            rx.el.textarea(
+                id="profile_career_goals",
+                name="profile_career_goals",
+                key="step-8-input-goals",
+                default_value=AppState.profile_career_goals,
+                on_blur=AppState.set_profile_career_goals,
+                rows=3,
+                placeholder="e.g., Lead AI research and build financial/educational infrastructure in emerging markets...",
+                class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
             ),
         ),
         class_name="space-y-4",
@@ -281,6 +291,7 @@ def onboarding_page() -> rx.Component:
                         ),
                         rx.el.button(
                             "Skip to Instant AI Analysis →",
+                            type="button",
                             on_click=AppState.complete_student_onboarding,
                             class_name="text-xs font-bold text-slate-700 hover:text-slate-900 underline cursor-pointer",
                         ),
@@ -295,8 +306,8 @@ def onboarding_page() -> rx.Component:
                     ),
                     class_name="mb-8",
                 ),
-                # Main card
-                rx.el.div(
+                # Main card wrapped in native rx.form
+                rx.form(
                     rx.el.h1(
                         AppState.current_onboarding_step_data["title"],
                         class_name="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight",
@@ -321,6 +332,7 @@ def onboarding_page() -> rx.Component:
                             AppState.onboarding_step > 0,
                             rx.el.button(
                                 "← Previous",
+                                type="button",
                                 on_click=AppState.prev_onboarding_step,
                                 class_name="px-5 py-2.5 rounded-full text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer",
                             ),
@@ -335,11 +347,12 @@ def onboarding_page() -> rx.Component:
                                     "Complete & Launch AI Advisor",
                                 ),
                             ),
-                            on_click=AppState.next_onboarding_step,
+                            type="submit",
                             class_name="px-7 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold shadow-sm transition-all cursor-pointer",
                         ),
                         class_name="flex items-center justify-between pt-6 mt-8 border-t border-slate-200",
                     ),
+                    on_submit=AppState.handle_onboarding_form_submit,
                     class_name="bg-white rounded-3xl p-7 sm:p-10 border border-slate-200 shadow-sm",
                 ),
                 class_name="max-w-2xl mx-auto",

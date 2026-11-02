@@ -183,12 +183,11 @@ def university_dashboard_page() -> rx.Component:
                         rx.icon("search", size=16, class_name="text-slate-400 shrink-0"),
                         rx.debounce_input(
                             rx.el.input(
-                                value=AppState.uni_portal_search,
                                 on_change=AppState.set_uni_portal_search,
                                 placeholder="Search by applicant name, country, or program...",
                                 class_name="text-xs text-slate-900 focus:outline-none bg-transparent w-64",
                             ),
-                            debounce_timeout=150,
+                            debounce_timeout=250,
                         ),
                         class_name="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-300",
                     ),

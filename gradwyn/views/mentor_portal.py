@@ -41,26 +41,20 @@ def mentor_onboarding_page() -> rx.Component:
                         AppState.mentor_onboarding_step == 1,
                         rx.el.div(
                             rx.el.label("Full Name & Title", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    value=AppState.mentor_name,
-                                    on_change=AppState.set_mentor_name,
-                                    on_key_down=AppState.handle_mentor_onboarding_key_down,
-                                    placeholder="e.g., Dr. Sarah Jenkins",
-                                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                name="mentor_name",
+                                default_value=AppState.mentor_name,
+                                on_blur=AppState.set_mentor_name,
+                                placeholder="e.g., Dr. Sarah Jenkins",
+                                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                             rx.el.label("University Affiliation", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    value=AppState.mentor_university,
-                                    on_change=AppState.set_mentor_university,
-                                    on_key_down=AppState.handle_mentor_onboarding_key_down,
-                                    placeholder="e.g., Stanford University",
-                                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                name="mentor_university",
+                                default_value=AppState.mentor_university,
+                                on_blur=AppState.set_mentor_university,
+                                placeholder="e.g., Stanford University",
+                                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                         ),
                     ),
@@ -68,26 +62,20 @@ def mentor_onboarding_page() -> rx.Component:
                         AppState.mentor_onboarding_step == 2,
                         rx.el.div(
                             rx.el.label("Current Role / Fellowship", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    value=AppState.mentor_role,
-                                    on_change=AppState.set_mentor_role,
-                                    on_key_down=AppState.handle_mentor_onboarding_key_down,
-                                    placeholder="e.g., PhD Candidate & Admissions Fellow",
-                                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                name="mentor_role",
+                                default_value=AppState.mentor_role,
+                                on_blur=AppState.set_mentor_role,
+                                placeholder="e.g., PhD Candidate & Admissions Fellow",
+                                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                             rx.el.label("City & Country", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    value=AppState.mentor_location,
-                                    on_change=AppState.set_mentor_location,
-                                    on_key_down=AppState.handle_mentor_onboarding_key_down,
-                                    placeholder="e.g., Stanford, USA",
-                                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                name="mentor_location",
+                                default_value=AppState.mentor_location,
+                                on_blur=AppState.set_mentor_location,
+                                placeholder="e.g., Stanford, USA",
+                                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                         ),
                     ),
@@ -95,15 +83,13 @@ def mentor_onboarding_page() -> rx.Component:
                         AppState.mentor_onboarding_step == 3,
                         rx.el.div(
                             rx.el.label("Mentoring Bio", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.textarea(
-                                    value=AppState.mentor_bio,
-                                    on_change=AppState.set_mentor_bio,
-                                    rows=4,
-                                    placeholder="Describe your research, mentorship background, and what students you help...",
-                                    class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.textarea(
+                                name="mentor_bio",
+                                default_value=AppState.mentor_bio,
+                                on_blur=AppState.set_mentor_bio,
+                                rows=4,
+                                placeholder="Describe your research, mentorship background, and what students you help...",
+                                class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                             rx.el.label("Specialties", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
                             rx.el.div(
@@ -111,6 +97,7 @@ def mentor_onboarding_page() -> rx.Component:
                                     AppState.mentor_specialties,
                                     lambda sp: rx.el.button(
                                         f"{sp} ×",
+                                        type="button",
                                         on_click=AppState.remove_mentor_specialty(sp),
                                         class_name="px-3 py-1 rounded-full text-xs font-bold bg-slate-900 text-white cursor-pointer",
                                     ),
@@ -118,17 +105,15 @@ def mentor_onboarding_page() -> rx.Component:
                                 class_name="flex flex-wrap gap-2 mb-3",
                             ),
                             rx.el.div(
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_custom_specialty,
-                                        on_change=AppState.set_mentor_custom_specialty,
-                                        placeholder="Add specialty (e.g., Rhodes Prep, STEM PhDs)...",
-                                        class_name="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_custom_specialty",
+                                    on_blur=AppState.set_mentor_custom_specialty,
+                                    placeholder="Add specialty (e.g., Rhodes Prep, STEM PhDs)...",
+                                    class_name="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                                 rx.el.button(
                                     "Add",
+                                    type="button",
                                     on_click=AppState.add_mentor_specialty,
                                     class_name="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold cursor-pointer shrink-0",
                                 ),
@@ -140,15 +125,12 @@ def mentor_onboarding_page() -> rx.Component:
                         AppState.mentor_onboarding_step == 4,
                         rx.el.div(
                             rx.el.label("LinkedIn / Booking Link", class_name="block text-xs font-bold uppercase text-slate-500 mb-1.5"),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    value=AppState.mentor_linkedin,
-                                    on_change=AppState.set_mentor_linkedin,
-                                    on_key_down=AppState.handle_mentor_onboarding_key_down,
-                                    placeholder="https://linkedin.com/in/username or calendly link",
-                                    class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                name="mentor_linkedin",
+                                default_value=AppState.mentor_linkedin,
+                                on_blur=AppState.set_mentor_linkedin,
+                                placeholder="https://linkedin.com/in/username or calendly link",
+                                class_name="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                             rx.el.p(
                                 "Clicking 'Publish Mentor Profile' will make your card immediately visible to students in the Mentorship Network.",
@@ -252,70 +234,58 @@ def mentor_dashboard_page() -> rx.Component:
                         rx.el.div(
                             rx.el.div(
                                 rx.el.label("Full Name", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_name,
-                                        on_change=AppState.set_mentor_name,
-                                        class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_name",
+                                    default_value=AppState.mentor_name,
+                                    on_blur=AppState.set_mentor_name,
+                                    class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                             rx.el.div(
                                 rx.el.label("University", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_university,
-                                        on_change=AppState.set_mentor_university,
-                                        class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_university",
+                                    default_value=AppState.mentor_university,
+                                    on_blur=AppState.set_mentor_university,
+                                    class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                             rx.el.div(
                                 rx.el.label("Academic Role / Fellowship", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_role,
-                                        on_change=AppState.set_mentor_role,
-                                        class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_role",
+                                    default_value=AppState.mentor_role,
+                                    on_blur=AppState.set_mentor_role,
+                                    class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                             rx.el.div(
                                 rx.el.label("Location", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_location,
-                                        on_change=AppState.set_mentor_location,
-                                        class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_location",
+                                    default_value=AppState.mentor_location,
+                                    on_blur=AppState.set_mentor_location,
+                                    class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                             rx.el.div(
                                 rx.el.label("Mentoring Bio", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.textarea(
-                                        value=AppState.mentor_bio,
-                                        on_change=AppState.set_mentor_bio,
-                                        rows=3,
-                                        class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.textarea(
+                                    name="mentor_bio",
+                                    default_value=AppState.mentor_bio,
+                                    on_blur=AppState.set_mentor_bio,
+                                    rows=3,
+                                    class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                                 class_name="sm:col-span-2",
                             ),
                             rx.el.div(
                                 rx.el.label("LinkedIn / Calendly Booking URL", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.mentor_linkedin,
-                                        on_change=AppState.set_mentor_linkedin,
-                                        class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    name="mentor_linkedin",
+                                    default_value=AppState.mentor_linkedin,
+                                    on_blur=AppState.set_mentor_linkedin,
+                                    class_name="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                                 class_name="sm:col-span-2",
                             ),

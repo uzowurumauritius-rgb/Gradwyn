@@ -77,23 +77,21 @@ def auth_page() -> rx.Component:
                         ),
                     ),
                     # Form fields
-                    rx.el.div(
+                    rx.form(
                         rx.cond(
                             AppState.auth_mode == "signup",
                             rx.el.div(
                                 rx.el.label(
                                     "Full Name",
+                                    html_for="auth_name_input",
                                     class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                                 ),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.auth_name_input,
-                                        on_change=AppState.set_auth_name_input,
-                                        on_key_down=AppState.handle_auth_key_down,
-                                        placeholder="e.g., Amara Okafor",
-                                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    id="auth_name_input",
+                                    name="name",
+                                    default_value=AppState.auth_name_input,
+                                    placeholder="e.g., Amara Okafor",
+                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                         ),
@@ -102,52 +100,46 @@ def auth_page() -> rx.Component:
                             rx.el.div(
                                 rx.el.label(
                                     "Partner Institution",
+                                    html_for="auth_university_input",
                                     class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                                 ),
-                                rx.debounce_input(
-                                    rx.el.input(
-                                        value=AppState.auth_university_input,
-                                        on_change=AppState.set_auth_university_input,
-                                        on_key_down=AppState.handle_auth_key_down,
-                                        placeholder="e.g., African Leadership University (ALU)",
-                                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                    ),
-                                    debounce_timeout=150,
+                                rx.el.input(
+                                    id="auth_university_input",
+                                    name="university",
+                                    default_value=AppState.auth_university_input,
+                                    placeholder="e.g., African Leadership University (ALU)",
+                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                                 ),
                             ),
                         ),
                         rx.el.div(
                             rx.el.label(
                                 "Email Address",
+                                html_for="auth_email_input",
                                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                             ),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    type="email",
-                                    value=AppState.auth_email_input,
-                                    on_change=AppState.set_auth_email_input,
-                                    on_key_down=AppState.handle_auth_key_down,
-                                    placeholder="you@university.edu",
-                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                id="auth_email_input",
+                                type="email",
+                                name="email",
+                                default_value=AppState.auth_email_input,
+                                placeholder="you@university.edu",
+                                class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                         ),
                         rx.el.div(
                             rx.el.label(
                                 "Password",
+                                html_for="auth_password_input",
                                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                             ),
-                            rx.debounce_input(
-                                rx.el.input(
-                                    type="password",
-                                    value=AppState.auth_password_input,
-                                    on_change=AppState.set_auth_password_input,
-                                    on_key_down=AppState.handle_auth_key_down,
-                                    placeholder="••••••••",
-                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                                ),
-                                debounce_timeout=150,
+                            rx.el.input(
+                                id="auth_password_input",
+                                type="password",
+                                name="password",
+                                default_value=AppState.auth_password_input,
+                                placeholder="••••••••",
+                                class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                             ),
                         ),
                         rx.el.button(
@@ -156,9 +148,10 @@ def auth_page() -> rx.Component:
                                 "Sign In to Portal →",
                                 "Create Account & Continue →",
                             ),
-                            on_click=AppState.handle_auth_submit,
+                            type="submit",
                             class_name="w-full py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold shadow-sm transition-colors cursor-pointer mt-2",
                         ),
+                        on_submit=AppState.handle_auth_form_submit,
                         class_name="space-y-4",
                     ),
                     # Toggle Sign In / Sign Up

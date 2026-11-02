@@ -256,23 +256,22 @@ def chat_page() -> rx.Component:
                         class_name="px-5 py-2.5 flex flex-wrap gap-2 border-t border-slate-100 bg-white",
                     ),
                     # Chat input bar
-                    rx.el.div(
-                        rx.debounce_input(
-                            rx.el.input(
-                                value=AppState.chat_input,
-                                on_change=AppState.set_chat_input,
-                                on_key_down=AppState.handle_chat_key_down,
-                                placeholder="Ask about universities, acceptance rates, scholarships, or essay strategy (Press Enter to send)...",
-                                class_name="w-full px-5 py-3 rounded-full border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
-                            ),
-                            debounce_timeout=150,
+                    rx.form(
+                        rx.el.input(
+                            id="chat_message_input",
+                            name="message",
+                            key="chat-message-input",
+                            placeholder="Ask about universities, acceptance rates, scholarships, or essay strategy (Press Enter to send)...",
+                            class_name="w-full px-5 py-3 rounded-full border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
                         ),
                         rx.el.button(
                             rx.icon("send", size=16),
                             rx.el.span("Ask AI"),
-                            on_click=AppState.send_chat_message,
+                            type="submit",
                             class_name="flex items-center gap-1.5 px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0",
                         ),
+                        on_submit=AppState.handle_chat_form_submit,
+                        reset_on_submit=True,
                         class_name="p-4 bg-white border-t border-slate-200 flex items-center gap-2",
                     ),
                     class_name="lg:col-span-5 bg-slate-50/50 rounded-3xl border border-slate-200 flex flex-col overflow-hidden shadow-xs",
