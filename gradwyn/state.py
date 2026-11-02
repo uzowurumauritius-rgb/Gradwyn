@@ -23,7 +23,8 @@ import reflex as rx
 from sqlmodel import SQLModel, select
 
 from .ai_service import (
-     _score_curated_universities,
+    _fallback_advisor_response,
+    _score_curated_universities,
     critique_essay_with_ai,
     evaluate_interview_answer,
     generate_advisor_response,
@@ -366,7 +367,7 @@ class AppState(rx.State):
                 for a in self.all_candidate_applications[:3]
             ]
         if not self.chat_messages:
-            initial = generate_advisor_response(
+            initial = _fallback_advisor_response(
                 self._get_profile_dict(),
                 "Hi! I just completed my onboarding profile. Please analyze my profile and recommend the best universities and scholarships for me.",
             )
