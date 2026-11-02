@@ -4,8 +4,9 @@ from pathlib import Path
 
 from reflex.reflex import _compile_app, _init
 from reflex.utils import build, prerequisites
-from reflex_base import constants, environment
+from reflex_base import constants
 from reflex_base.config import get_config
+from reflex_base.environment import environment
 
 
 def main() -> None:

@@ -4,7 +4,8 @@ import os
 
 from reflex.reflex import _skip_compile
 from reflex.utils import exec
-from reflex_base import constants, environment
+from reflex_base import constants
+from reflex_base.environment import environment
 
 
 def main() -> None:
