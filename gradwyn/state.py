@@ -383,17 +383,17 @@ class AppState(rx.State):
 
     def _get_profile_dict(self) -> dict[str, Any]:
         return {
-            "name": self.profile_name,
-            "country": self.profile_country,
-            "educationLevel": self.profile_education_level,
-            "targetDegree": self.profile_target_degree,
-            "academicInterests": self.profile_academic_interests,
-            "gpa": self.profile_gpa,
-            "testScores": self.profile_test_scores,
-            "preferredLocations": self.profile_preferred_locations,
-            "budget": self.profile_budget,
-            "extracurriculars": self.profile_extracurriculars,
-            "careerGoals": self.profile_career_goals,
+            "name": self.profile_name.strip() or "Scholar",
+            "country": self.profile_country.strip() or "Nigeria / Emerging Markets",
+            "educationLevel": self.profile_education_level or "High School Senior",
+            "targetDegree": self.profile_target_degree or "Bachelor's (BSc/BA)",
+            "academicInterests": self.profile_academic_interests or ["Computer Science & AI", "Business & Finance"],
+            "gpa": self.profile_gpa.strip() or "3.8/4.0",
+            "testScores": self.profile_test_scores.strip() or "SAT 1500 / Test-Optional",
+            "preferredLocations": self.profile_preferred_locations or ["North America (US & Canada)", "Europe & UK", "Africa (ALU, UCT, Ashesi)"],
+            "budget": self.profile_budget or "Need Full Financial Aid / Scholarship",
+            "extracurriculars": self.profile_extracurriculars.strip() or "Student leader, community initiative founder",
+            "careerGoals": self.profile_career_goals.strip() or "Build impactful technology for emerging economies",
         }
 
     # ==================================================================

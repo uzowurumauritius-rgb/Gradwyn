@@ -281,7 +281,8 @@ def _fallback_advisor_response(
     profile: dict[str, Any], message: str
 ) -> dict[str, Any]:
     """Generate an intelligent, profile-aware response when Gemini API is offline."""
-    name = profile.get("name", "Scholar").split()[0]
+    raw_name = (profile.get("name") or "").strip()
+    name = raw_name.split()[0] if raw_name else "Scholar"
     country = profile.get("country", "your home country")
     degree = profile.get("targetDegree", "Bachelor's (BSc/BA)")
     interests = ", ".join(profile.get("academicInterests", [])) or "Computer Science & Innovation"
@@ -481,7 +482,8 @@ Return ONLY valid JSON."""
 
     # Deterministic, intelligent fallback critique based on draft length and specificity
     has_numbers = bool(re.search(r"\d+", essay_text))
-    has_target = bool(target_name and target_name.lower().split()[0] in essay_text.lower())
+    target_words = (target_name or "").strip().split()
+    has_target = bool(target_words and target_words[0].lower() in essay_text.lower())
     base_score = min(94, 72 + min(14, word_count // 25) + (4 if has_numbers else 0) + (4 if has_target else 0))
 
     return {
