@@ -923,11 +923,12 @@ class AppState(rx.State):
     def complete_student_onboarding(self):
         self._ensure_db_initialized()
         profile = self._get_profile_dict()
-        self.user_name = self.profile_name
+        self.user_name = self.profile_name or "Scholar"
         self.is_authenticated = True
         self.user_role = "student"
 
-        result = generate_advisor_response(
+        # Generate instant personalized advisor recommendations without remote network blocking
+        result = _fallback_advisor_response(
             profile,
             "Hi! I just finished my onboarding profile. Please analyze my profile and recommend the best universities and scholarships for me.",
         )

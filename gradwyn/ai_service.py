@@ -29,7 +29,7 @@ def _get_genai_client() -> genai.Client | None:
     if not api_key or api_key in ("YOUR_GEMINI_API_KEY", "MY_GEMINI_API_KEY", '""'):
         return None
     try:
-        return genai.Client(api_key=api_key)
+        return genai.Client(api_key=api_key, http_options={"timeout": 6.0})
     except Exception:
         return None
 
