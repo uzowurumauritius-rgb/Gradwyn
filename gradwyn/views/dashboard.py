@@ -155,12 +155,15 @@ def _overview_tab() -> rx.Component:
         # Global University Search Bar with Autocomplete
         rx.el.div(
             rx.el.div(
-                rx.icon("search", size=18, class_name="text-slate-400"),
-                rx.el.input(
-                    value=AppState.uni_search_query,
-                    on_change=AppState.set_uni_search_query,
-                    placeholder="Search global universities by name, country, or major (e.g., MIT, ALU Mauritius, Oxford, Toronto)...",
-                    class_name="flex-1 text-sm text-slate-900 focus:outline-none bg-transparent",
+                rx.icon("search", size=18, class_name="text-slate-400 shrink-0"),
+                rx.debounce_input(
+                    rx.el.input(
+                        value=AppState.uni_search_query,
+                        on_change=AppState.set_uni_search_query,
+                        placeholder="Search global universities by name, country, or major (e.g., MIT, ALU Mauritius, Oxford, Toronto)...",
+                        class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
+                    ),
+                    debounce_timeout=150,
                 ),
                 class_name="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white border border-slate-300 shadow-2xs",
             ),
@@ -341,12 +344,15 @@ def _scholarships_tab() -> rx.Component:
         ),
         # Search bar
         rx.el.div(
-            rx.icon("search", size=17, class_name="text-slate-400"),
-            rx.el.input(
-                value=AppState.scholarship_search_query,
-                on_change=AppState.set_scholarship_search_query,
-                placeholder="Filter scholarships by name, foundation, or region (e.g., Mastercard, Gates, Rhodes, Canada)...",
-                class_name="flex-1 text-sm text-slate-900 focus:outline-none bg-transparent",
+            rx.icon("search", size=17, class_name="text-slate-400 shrink-0"),
+            rx.debounce_input(
+                rx.el.input(
+                    value=AppState.scholarship_search_query,
+                    on_change=AppState.set_scholarship_search_query,
+                    placeholder="Filter scholarships by name, foundation, or region (e.g., Mastercard, Gates, Rhodes, Canada)...",
+                    class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
+                ),
+                debounce_timeout=150,
             ),
             class_name="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-slate-300 mb-6",
         ),
@@ -432,12 +438,15 @@ def _mentors_tab() -> rx.Component:
         ),
         rx.el.div(
             rx.el.div(
-                rx.icon("search", size=17, class_name="text-slate-400"),
-                rx.el.input(
-                    value=AppState.mentor_search_query,
-                    on_change=AppState.set_mentor_search_query,
-                    placeholder="Search mentors by university, specialty, or name (e.g., Stanford, Oxford, ALU, Rhodes)...",
-                    class_name="flex-1 text-sm text-slate-900 focus:outline-none bg-transparent",
+                rx.icon("search", size=17, class_name="text-slate-400 shrink-0"),
+                rx.debounce_input(
+                    rx.el.input(
+                        value=AppState.mentor_search_query,
+                        on_change=AppState.set_mentor_search_query,
+                        placeholder="Search mentors by university, specialty, or name (e.g., Stanford, Oxford, ALU, Rhodes)...",
+                        class_name="w-full text-sm text-slate-900 focus:outline-none bg-transparent",
+                    ),
+                    debounce_timeout=150,
                 ),
                 class_name="flex-1 flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-slate-300",
             ),
@@ -517,20 +526,28 @@ def _prep_suite_tab() -> rx.Component:
                         "Target University or Scholarship",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.el.input(
-                        value=AppState.prep_essay_target,
-                        on_change=AppState.set_prep_essay_target,
-                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm mb-4",
+                    rx.debounce_input(
+                        rx.el.input(
+                            value=AppState.prep_essay_target,
+                            on_change=AppState.set_prep_essay_target,
+                            placeholder="e.g., Massachusetts Institute of Technology (MIT)",
+                            class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                        ),
+                        debounce_timeout=150,
                     ),
                     rx.el.label(
                         "Personal Statement / Motivation Essay Draft",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.el.textarea(
-                        value=AppState.prep_essay_draft,
-                        on_change=AppState.set_prep_essay_draft,
-                        rows=7,
-                        class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4",
+                    rx.debounce_input(
+                        rx.el.textarea(
+                            value=AppState.prep_essay_draft,
+                            on_change=AppState.set_prep_essay_draft,
+                            rows=7,
+                            placeholder="Paste your essay draft here...",
+                            class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                        ),
+                        debounce_timeout=150,
                     ),
                     rx.el.button(
                         rx.icon("sparkles", size=16),
@@ -619,11 +636,15 @@ def _prep_suite_tab() -> rx.Component:
                         "Your Spoken / Written Interview Response",
                         class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                     ),
-                    rx.el.textarea(
-                        value=AppState.prep_interview_answer,
-                        on_change=AppState.set_prep_interview_answer,
-                        rows=5,
-                        class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4",
+                    rx.debounce_input(
+                        rx.el.textarea(
+                            value=AppState.prep_interview_answer,
+                            on_change=AppState.set_prep_interview_answer,
+                            rows=5,
+                            placeholder="Type or dictate your mock interview response...",
+                            class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm leading-relaxed mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                        ),
+                        debounce_timeout=150,
                     ),
                     rx.el.button(
                         rx.icon("sparkles", size=16),

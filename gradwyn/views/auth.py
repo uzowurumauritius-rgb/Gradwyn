@@ -85,11 +85,15 @@ def auth_page() -> rx.Component:
                                     "Full Name",
                                     class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                                 ),
-                                rx.el.input(
-                                    value=AppState.auth_name_input,
-                                    on_change=AppState.set_auth_name_input,
-                                    placeholder="e.g., Amara Okafor",
-                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-slate-900",
+                                rx.debounce_input(
+                                    rx.el.input(
+                                        value=AppState.auth_name_input,
+                                        on_change=AppState.set_auth_name_input,
+                                        on_key_down=AppState.handle_auth_key_down,
+                                        placeholder="e.g., Amara Okafor",
+                                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                                    ),
+                                    debounce_timeout=150,
                                 ),
                             ),
                         ),
@@ -100,11 +104,15 @@ def auth_page() -> rx.Component:
                                     "Partner Institution",
                                     class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                                 ),
-                                rx.el.input(
-                                    value=AppState.auth_university_input,
-                                    on_change=AppState.set_auth_university_input,
-                                    placeholder="e.g., African Leadership University (ALU)",
-                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-slate-900",
+                                rx.debounce_input(
+                                    rx.el.input(
+                                        value=AppState.auth_university_input,
+                                        on_change=AppState.set_auth_university_input,
+                                        on_key_down=AppState.handle_auth_key_down,
+                                        placeholder="e.g., African Leadership University (ALU)",
+                                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                                    ),
+                                    debounce_timeout=150,
                                 ),
                             ),
                         ),
@@ -113,12 +121,16 @@ def auth_page() -> rx.Component:
                                 "Email Address",
                                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                             ),
-                            rx.el.input(
-                                type="email",
-                                value=AppState.auth_email_input,
-                                on_change=AppState.set_auth_email_input,
-                                placeholder="you@university.edu",
-                                class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-slate-900",
+                            rx.debounce_input(
+                                rx.el.input(
+                                    type="email",
+                                    value=AppState.auth_email_input,
+                                    on_change=AppState.set_auth_email_input,
+                                    on_key_down=AppState.handle_auth_key_down,
+                                    placeholder="you@university.edu",
+                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                                ),
+                                debounce_timeout=150,
                             ),
                         ),
                         rx.el.div(
@@ -126,12 +138,16 @@ def auth_page() -> rx.Component:
                                 "Password",
                                 class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1",
                             ),
-                            rx.el.input(
-                                type="password",
-                                value=AppState.auth_password_input,
-                                on_change=AppState.set_auth_password_input,
-                                placeholder="••••••••",
-                                class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-slate-900",
+                            rx.debounce_input(
+                                rx.el.input(
+                                    type="password",
+                                    value=AppState.auth_password_input,
+                                    on_change=AppState.set_auth_password_input,
+                                    on_key_down=AppState.handle_auth_key_down,
+                                    placeholder="••••••••",
+                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                                ),
+                                debounce_timeout=150,
                             ),
                         ),
                         rx.el.button(

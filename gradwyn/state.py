@@ -93,17 +93,17 @@ class AppState(rx.State):
     # Student Profile & 9-Step Onboarding State
     # ------------------------------------------------------------------
     onboarding_step: int = 0
-    profile_name: str = "Amara Okafor"
-    profile_country: str = "Nigeria / Mauritius"
+    profile_name: str = ""
+    profile_country: str = ""
     profile_education_level: str = "High School Senior"
     profile_target_degree: str = "Bachelor's (BSc/BA)"
     profile_academic_interests: list[str] = ["Computer Science & AI", "Business & Finance"]
-    profile_gpa: str = "3.9/4.0 (First Class / A*AA)"
-    profile_test_scores: str = "SAT 1510, IELTS 8.0"
+    profile_gpa: str = ""
+    profile_test_scores: str = ""
     profile_preferred_locations: list[str] = ["North America (US & Canada)", "Europe & UK", "Africa (ALU, UCT, Ashesi)"]
     profile_budget: str = "Need Full Financial Aid / Scholarship"
-    profile_extracurriculars: str = "Founded a youth coding academy for 180 students; National Robotics Finalist; Student Council President."
-    profile_career_goals: str = "Build scalable AI infrastructure for education and financial inclusion across emerging markets."
+    profile_extracurriculars: str = ""
+    profile_career_goals: str = ""
     custom_interest_input: str = ""
 
     # ------------------------------------------------------------------
@@ -609,6 +609,16 @@ class AppState(rx.State):
         self.user_name = "Amara Okafor"
         self.user_role = "student"
         self.profile_name = "Amara Okafor"
+        self.profile_country = "Nigeria / Mauritius"
+        self.profile_education_level = "High School Senior"
+        self.profile_target_degree = "Bachelor's (BSc/BA)"
+        self.profile_academic_interests = ["Computer Science & AI", "Business & Finance"]
+        self.profile_gpa = "3.9/4.0 (First Class / A*AA)"
+        self.profile_test_scores = "SAT 1510, IELTS 8.0"
+        self.profile_preferred_locations = ["North America (US & Canada)", "Europe & UK", "Africa (ALU, UCT, Ashesi)"]
+        self.profile_budget = "Need Full Financial Aid / Scholarship"
+        self.profile_extracurriculars = "Founded a youth coding academy for 180 students; National Robotics Finalist; Student Council President."
+        self.profile_career_goals = "Build scalable AI infrastructure for education and financial inclusion across emerging markets."
         self.on_app_load()
         return rx.redirect("/dashboard")
 
@@ -621,6 +631,16 @@ class AppState(rx.State):
         self.user_name = "Amara Okafor"
         self.user_role = "student"
         self.profile_name = "Amara Okafor"
+        self.profile_country = "Nigeria / Mauritius"
+        self.profile_education_level = "High School Senior"
+        self.profile_target_degree = "Bachelor's (BSc/BA)"
+        self.profile_academic_interests = ["Computer Science & AI", "Business & Finance"]
+        self.profile_gpa = "3.9/4.0 (First Class / A*AA)"
+        self.profile_test_scores = "SAT 1510, IELTS 8.0"
+        self.profile_preferred_locations = ["North America (US & Canada)", "Europe & UK", "Africa (ALU, UCT, Ashesi)"]
+        self.profile_budget = "Need Full Financial Aid / Scholarship"
+        self.profile_extracurriculars = "Founded a youth coding academy for 180 students; National Robotics Finalist; Student Council President."
+        self.profile_career_goals = "Build scalable AI infrastructure for education and financial inclusion across emerging markets."
         self.on_app_load()
         return rx.redirect("/chat")
 
@@ -644,6 +664,11 @@ class AppState(rx.State):
         self.user_role = "university"
         self.partner_university_name = "All Partner Institutions"
         return rx.redirect("/university-dashboard")
+
+    def handle_auth_key_down(self, key: str, info: dict | None = None):
+        """Handle Enter key in authentication form."""
+        if key == "Enter":
+            return self.handle_auth_submit()
 
     def handle_auth_submit(self):
         """Handle standard Email/Password Sign In or Sign Up."""
@@ -803,6 +828,16 @@ class AppState(rx.State):
     def set_profile_career_goals(self, val: str) -> None:
         self.profile_career_goals = val
 
+    def handle_onboarding_key_down(self, key: str, info: dict | None = None):
+        """Advance onboarding step on Enter."""
+        if key == "Enter":
+            return self.next_onboarding_step()
+
+    def handle_custom_interest_key_down(self, key: str, info: dict | None = None):
+        """Add custom interest on Enter."""
+        if key == "Enter":
+            return self.add_custom_interest()
+
     def next_onboarding_step(self):
         if self.onboarding_step < len(ONBOARDING_STEPS) - 1:
             self.onboarding_step += 1
@@ -848,6 +883,11 @@ class AppState(rx.State):
     def send_quick_prompt(self, prompt_text: str):
         self.chat_input = prompt_text
         return self.send_chat_message()
+
+    def handle_chat_key_down(self, key: str, info: dict | None = None):
+        """Send chat message on Enter key."""
+        if key == "Enter":
+            return self.send_chat_message()
 
     def send_chat_message(self):
         msg = self.chat_input.strip()
@@ -1203,6 +1243,11 @@ class AppState(rx.State):
     def toggle_mentor_availability(self) -> None:
         self.mentor_available = not self.mentor_available
         self.save_mentor_profile()
+
+    def handle_mentor_onboarding_key_down(self, key: str, info: dict | None = None):
+        """Advance mentor onboarding step on Enter."""
+        if key == "Enter":
+            return self.next_mentor_step()
 
     def next_mentor_step(self):
         if self.mentor_onboarding_step < 4:

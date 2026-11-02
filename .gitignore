@@ -1,3 +1,6 @@
+.web
+assets/external/
+.states
 # Python & Reflex
 __pycache__/
 *.py[cod]
@@ -7,6 +10,7 @@ venv/
 ENV/
 .web/
 .states/
+reflex.lock/
 *.db
 *.sqlite
 *.sqlite3

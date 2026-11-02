@@ -141,11 +141,14 @@ def application_wizard_modal() -> rx.Component:
                                     "Intended Major / Fellowship Track",
                                     class_name="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5",
                                 ),
-                                rx.el.input(
-                                    value=AppState.apply_program,
-                                    on_change=AppState.set_apply_program,
-                                    placeholder="e.g., BSc Computer Science & AI",
-                                    class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm text-slate-900 focus:outline-none focus:border-slate-900 mb-4",
+                                rx.debounce_input(
+                                    rx.el.input(
+                                        value=AppState.apply_program,
+                                        on_change=AppState.set_apply_program,
+                                        placeholder="e.g., BSc Computer Science & AI",
+                                        class_name="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all mb-4",
+                                    ),
+                                    debounce_timeout=150,
                                 ),
                                 rx.el.div(
                                     rx.el.div(
@@ -190,11 +193,15 @@ def application_wizard_modal() -> rx.Component:
                                     ),
                                     class_name="flex items-center justify-between mb-2",
                                 ),
-                                rx.el.textarea(
-                                    value=AppState.apply_essay,
-                                    on_change=AppState.set_apply_essay,
-                                    rows=6,
-                                    class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm text-slate-900 leading-relaxed focus:outline-none focus:border-slate-900",
+                                rx.debounce_input(
+                                    rx.el.textarea(
+                                        value=AppState.apply_essay,
+                                        on_change=AppState.set_apply_essay,
+                                        rows=6,
+                                        placeholder="Paste or write your essay draft here...",
+                                        class_name="w-full p-4 rounded-2xl border border-slate-300 text-sm text-slate-900 leading-relaxed focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                                    ),
+                                    debounce_timeout=150,
                                 ),
                                 rx.el.p(
                                     "Tip: Gradwyn pre-fills your draft from your onboarding profile. Click 'Enhance Opening with Gemini AI' to craft a compelling hook.",
@@ -354,62 +361,83 @@ def edit_profile_modal() -> rx.Component:
                 rx.el.div(
                     rx.el.div(
                         rx.el.label("Full Name", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.input(
-                            value=AppState.profile_name,
-                            on_change=AppState.set_profile_name,
-                            class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.profile_name,
+                                on_change=AppState.set_profile_name,
+                                class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                     ),
                     rx.el.div(
                         rx.el.label("Country of Origin", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.input(
-                            value=AppState.profile_country,
-                            on_change=AppState.set_profile_country,
-                            class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.profile_country,
+                                on_change=AppState.set_profile_country,
+                                class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                     ),
                     rx.el.div(
                         rx.el.label("GPA / Academic Standing", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.input(
-                            value=AppState.profile_gpa,
-                            on_change=AppState.set_profile_gpa,
-                            class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.profile_gpa,
+                                on_change=AppState.set_profile_gpa,
+                                class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                     ),
                     rx.el.div(
                         rx.el.label("Standardized Test Scores", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.input(
-                            value=AppState.profile_test_scores,
-                            on_change=AppState.set_profile_test_scores,
-                            class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.profile_test_scores,
+                                on_change=AppState.set_profile_test_scores,
+                                class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                     ),
                     rx.el.div(
                         rx.el.label("Annual Budget / Aid Requirement", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.input(
-                            value=AppState.profile_budget,
-                            on_change=AppState.set_profile_budget,
-                            class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.profile_budget,
+                                on_change=AppState.set_profile_budget,
+                                class_name="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                         class_name="sm:col-span-2",
                     ),
                     rx.el.div(
                         rx.el.label("Extracurriculars & Leadership", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.textarea(
-                            value=AppState.profile_extracurriculars,
-                            on_change=AppState.set_profile_extracurriculars,
-                            rows=3,
-                            class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.textarea(
+                                value=AppState.profile_extracurriculars,
+                                on_change=AppState.set_profile_extracurriculars,
+                                rows=3,
+                                class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                         class_name="sm:col-span-2",
                     ),
                     rx.el.div(
                         rx.el.label("Career Aspirations", class_name="block text-xs font-bold text-slate-600 mb-1"),
-                        rx.el.textarea(
-                            value=AppState.profile_career_goals,
-                            on_change=AppState.set_profile_career_goals,
-                            rows=2,
-                            class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm",
+                        rx.debounce_input(
+                            rx.el.textarea(
+                                value=AppState.profile_career_goals,
+                                on_change=AppState.set_profile_career_goals,
+                                rows=2,
+                                class_name="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                         class_name="sm:col-span-2",
                     ),
@@ -531,12 +559,15 @@ def feedback_modal() -> rx.Component:
                             ),
                             class_name="flex items-center gap-2 mb-4",
                         ),
-                        rx.el.textarea(
-                            value=AppState.feedback_comment,
-                            on_change=AppState.set_feedback_comment,
-                            placeholder="Tell us what you love or what we should build next...",
-                            rows=3,
-                            class_name="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4",
+                        rx.debounce_input(
+                            rx.el.textarea(
+                                value=AppState.feedback_comment,
+                                on_change=AppState.set_feedback_comment,
+                                placeholder="Tell us what you love or what we should build next...",
+                                rows=3,
+                                class_name="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                         rx.el.div(
                             rx.el.button(

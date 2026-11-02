@@ -230,41 +230,48 @@ def chat_page() -> rx.Component:
                     # Quick prompt chips
                     rx.el.div(
                         rx.el.button(
-                            "💰 Which full-ride scholarships fit me?",
+                            rx.icon("circle-dollar-sign", size=13, class_name="text-emerald-600"),
+                            rx.el.span("Full-ride scholarships for my profile"),
                             on_click=AppState.send_quick_prompt(
                                 "Which full-ride scholarships and financial aid grants fit my profile best?"
                             ),
-                            class_name="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
+                            class_name="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
                         ),
                         rx.el.button(
-                            "🌍 Compare US Ivies vs ALU Mauritius",
+                            rx.icon("globe", size=13, class_name="text-indigo-600"),
+                            rx.el.span("Compare US Ivies vs ALU Mauritius"),
                             on_click=AppState.send_quick_prompt(
                                 "Compare full-need US universities like MIT/Stanford with African Leadership University (ALU) in Mauritius and Rwanda."
                             ),
-                            class_name="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
+                            class_name="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
                         ),
                         rx.el.button(
-                            "✍️ Personal Statement Strategy",
+                            rx.icon("pen-tool", size=13, class_name="text-purple-600"),
+                            rx.el.span("Personal Statement Strategy"),
                             on_click=AppState.send_quick_prompt(
                                 "How should I structure my Personal Statement to highlight my leadership and secure financial aid?"
                             ),
-                            class_name="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
+                            class_name="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer",
                         ),
                         class_name="px-5 py-2.5 flex flex-wrap gap-2 border-t border-slate-100 bg-white",
                     ),
                     # Chat input bar
                     rx.el.div(
-                        rx.el.input(
-                            value=AppState.chat_input,
-                            on_change=AppState.set_chat_input,
-                            placeholder="Ask about universities, acceptance rates, scholarships, or essay strategy...",
-                            class_name="flex-1 px-4 py-3 rounded-full border border-slate-300 text-sm focus:outline-none focus:border-slate-900",
+                        rx.debounce_input(
+                            rx.el.input(
+                                value=AppState.chat_input,
+                                on_change=AppState.set_chat_input,
+                                on_key_down=AppState.handle_chat_key_down,
+                                placeholder="Ask about universities, acceptance rates, scholarships, or essay strategy (Press Enter to send)...",
+                                class_name="w-full px-5 py-3 rounded-full border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all",
+                            ),
+                            debounce_timeout=150,
                         ),
                         rx.el.button(
                             rx.icon("send", size=16),
                             rx.el.span("Ask AI"),
                             on_click=AppState.send_chat_message,
-                            class_name="flex items-center gap-1.5 px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors cursor-pointer",
+                            class_name="flex items-center gap-1.5 px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0",
                         ),
                         class_name="p-4 bg-white border-t border-slate-200 flex items-center gap-2",
                     ),
