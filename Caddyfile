@@ -1,0 +1,10 @@
+:{$PORT:8080}
+
+@backend_routes path /_event/* /ping /_upload /_upload/*
+handle @backend_routes {
+    reverse_proxy 127.0.0.1:8000
+}
+
+handle {
+    reverse_proxy 127.0.0.1:3000
+}

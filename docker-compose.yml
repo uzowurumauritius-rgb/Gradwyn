@@ -1,0 +1,15 @@
+services:
+  gradwyn:
+    build: .
+    container_name: gradwyn-mvp
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - DB_URL=${DB_URL:-sqlite:///gradwyn.db}
+    volumes:
+      - gradwyn_data:/app
+volumes:
+  gradwyn_data:
